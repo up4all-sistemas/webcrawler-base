@@ -7,6 +7,9 @@
     <PackageTags>scrapping rpa webdriver chrome browser</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/up4all-sistemas/webcrawler-base</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/up4all-sistemas/webcrawler-base</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
