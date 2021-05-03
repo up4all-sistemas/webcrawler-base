@@ -32,6 +32,8 @@ namespace Up4All.WebCrawler.Framework.Options
 
         public string ChromeDriverPath { get; set; }
 
+        public string DownloadPath { get; set; }
+
         public ProxyConfiguration Proxy { get; set; }
 
         public CrawlerChromeOptions()

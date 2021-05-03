@@ -156,11 +156,9 @@ namespace Up4All.WebCrawler.Framework
             {
                 if (disposing)
                 {
-                    _busClient.Close();
-                    ChromeService.Driver.Quit();
-                    Context.ClearContext();
+                    _busClient?.Close();
+                    ChromeService?.Driver.Quit();                    
                     Environment.ExitCode = 0;
-
                     LogService.LogWarning("Shutdown Bot");
                     LogService.LogWarning("Closing process");
                     

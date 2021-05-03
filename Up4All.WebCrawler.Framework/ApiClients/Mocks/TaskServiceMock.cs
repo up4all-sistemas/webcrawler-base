@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 using Up4All.WebCrawler.Framework.Contracts;
 using Up4All.WebCrawler.Framework.Entities;
+using Up4All.WebCrawler.Framework.Entities.Enums;
 using Up4All.WebCrawler.Framework.ViewModels;
 
 using Image = System.Drawing.Image;
@@ -95,7 +96,10 @@ namespace Up4All.WebCrawler.Framework.ApiClients.Mocks
         }
 
         public Task SaveAsync(Context context)
-        {            
+        {
+            if (context.Result == null || context.Result.Status == TaskResultEnum.None)
+                context.Result.SetAsFailed();
+
             return Task.CompletedTask;
         }
     }

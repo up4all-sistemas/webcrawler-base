@@ -24,7 +24,7 @@ namespace Up4All.WebCrawler.Framework
                 {
                     LogService.LogInformation("Bot configured to execute a job");
                     var metadata = new Metadata();
-                    metadata.TaskId = _options.JobTask.Value;
+                    metadata.SetTaskId(_options.JobTask.Value);
 
                     Process(metadata);
                     ShutDown();

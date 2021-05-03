@@ -8,6 +8,7 @@ using OpenQA.Selenium.Support.UI;
 using Polly;
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -28,6 +29,7 @@ namespace Up4All.WebCrawler.Framework.Services
 
         private readonly string _chromepath;
         private readonly string _driverpath;
+        private readonly string _downloadPath;
 
         public ChromeService(ILogger<ChromeService> logService, IOptions<CrawlerOptions> opts)
         {
@@ -38,6 +40,8 @@ namespace Up4All.WebCrawler.Framework.Services
 
             var defaultChromedriverPath = OperatingSystem.IsLinux() ? "/opt/selenium/" : AppDomain.CurrentDomain.BaseDirectory;
             _driverpath = string.IsNullOrEmpty(_options.ChromeDriverPath) ? defaultChromedriverPath : _options.ChromeDriverPath;
+            _downloadPath = string.IsNullOrEmpty(_options.DownloadPath) ? AppContext.BaseDirectory : _options.DownloadPath;
+
         }
 
         public void ConfigureWebBrowser()
@@ -82,6 +86,12 @@ namespace Up4All.WebCrawler.Framework.Services
                 options.AddArgument("--disable-features=RendererCodeIntegrity");
                 options.AddArgument("--disable-blink-features=AutomationControlled");
                 options.AddExcludedArgument("enable-automation");
+
+                options.AddUserProfilePreference("download.default_directory", _downloadPath);
+                options.AddUserProfilePreference("download.prompt_for_download", false);
+                options.AddUserProfilePreference("download.directory_upgrade", true);
+                options.AddUserProfilePreference("plugins.always_open_pdf_externally", true);
+                
 
                 if (_options.Proxy.Enabled && _options.Proxy.Authenticated)
                 {
@@ -237,5 +247,17 @@ namespace Up4All.WebCrawler.Framework.Services
                 throw result.FinalException;
         }
 
+        public void SwitchToNewTab()
+        {
+            var windows = Driver.WindowHandles;
+            Driver.SwitchTo().Window(windows.Last());
+        }
+
+        public void CloseNewTab()
+        {
+            var windows = Driver.WindowHandles;
+            Driver.Close();
+            Driver.SwitchTo().Window(windows.First());
+        }
     }
 }

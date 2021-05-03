@@ -26,5 +26,9 @@ namespace Up4All.WebCrawler.Framework.Contracts
         void TryUpdatePage();
 
         ReadOnlyCollection<IWebElement> FindElements(By by, int timeoutInSeconds = 1);
+
+        void SwitchToNewTab();
+
+        void CloseNewTab();
     }
 }
