@@ -27,11 +27,7 @@ namespace Up4All.WebCrawler.Framework
             services.AddSingleton<IChromeService, ChromeService>();
             services.AddSingleton<HttpClient>();
             services.AddSingleton(configuration);
-
-            
-
             services.AddSingleton<IProcess, EngineBase>();
-
             services.Configure<CrawlerOptions>(o => configuration.GetSection(nameof(CrawlerOptions)).Bind(o));
             return services;
         }

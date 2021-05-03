@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Up4All.Framework.MessageBus.Abstractions;
+using Up4All.Framework.MessageBus.Abstractions.Interfaces;
 using Up4All.WebCrawler.Domain.Models;
 using Up4All.WebCrawler.Framework.Contracts;
 using Up4All.WebCrawler.Framework.Options;
@@ -26,7 +27,7 @@ namespace Up4All.WebCrawler.Framework
     {
         public IChromeService ChromeService { get; }
         private readonly ICollection<ICrawlerTask> _taskFromSource;
-        private readonly MessageBusSubscribeClient _busClient;
+        private readonly IMessageBusConsumer _busClient;
         private readonly CrawlerOptions _options;
         
 
@@ -42,7 +43,7 @@ namespace Up4All.WebCrawler.Framework
         public EngineBase(IChromeService chromeService,
                              ILogger<EngineBase> logService,                             
                              Context context,
-                             MessageBusSubscribeClient busClient,
+                             IMessageBusConsumer busClient,
                              IOptions<CrawlerOptions> opts,
                              IServiceProvider serviceProvider)
         {
