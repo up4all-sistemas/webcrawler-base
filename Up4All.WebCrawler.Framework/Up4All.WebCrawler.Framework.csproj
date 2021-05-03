@@ -38,10 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Up4All.WebCrawler.Domain\Up4All.WebCrawler.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
