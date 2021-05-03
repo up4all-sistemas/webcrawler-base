@@ -28,8 +28,7 @@ namespace Up4All.WebCrawler.Framework
             services.AddSingleton<HttpClient>();
             services.AddSingleton(configuration);
 
-            services.AddMessageBusTopicClient<RabbitMQTopicClient>(configuration);
-            services.AddMessageBusSubscribeClient<RabbitMQSubscribeClient>(configuration);            
+            
 
             services.AddSingleton<IProcess, EngineBase>();
 
@@ -139,14 +138,18 @@ namespace Up4All.WebCrawler.Framework
         }
         #endregion
 
-        public static IServiceCollection AddCrawlerServicesDependencies(this IServiceCollection services)
-        {            
+        public static IServiceCollection AddCrawlerServicesDependencies(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMessageBusTopicClient<RabbitMQTopicClient>(configuration);
+            services.AddMessageBusSubscribeClient<RabbitMQSubscribeClient>(configuration);
             services.AddSingleton<ITaskService, TaskService>();
             return services;
         }
 
         public static IServiceCollection AddCrawlerServicesDependenciesAsMock(this IServiceCollection services)
-        {   
+        {
+            services.AddMessageBusTopicClientMocked<RabbitMQTopicClientMocked>();
+            services.AddMessageBusSubscribeClientMocked<RabbitMQSubscribeClientMocked>();
             services.AddSingleton<ITaskService, TaskServiceMock>();
             return services;
         }
