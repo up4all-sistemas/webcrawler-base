@@ -36,7 +36,10 @@ namespace Up4All.WebCrawler.Framework
                 {
                     try
                     {
-                        var metadata = data.GetBody<Metadata>();
+                        var metadata = data.GetBody<Metadata>(new Newtonsoft.Json.JsonSerializerSettings
+                        {
+                            ConstructorHandling = Newtonsoft.Json.ConstructorHandling.AllowNonPublicDefaultConstructor
+                        });
                         Process(metadata);
                         return MessageReceivedStatusEnum.Completed;
                     }
