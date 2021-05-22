@@ -138,6 +138,7 @@ namespace Up4All.WebCrawler.Framework
         {
             services.AddMessageBusTopicClient<RabbitMQTopicClient>(configuration);
             services.AddMessageBusSubscribeClient<RabbitMQSubscribeClient>(configuration);
+            services.AddMessageBusQueueClient<RabbitMQQueueClient>(configuration);
             services.AddSingleton<ITaskService, TaskService>();
             return services;
         }
@@ -146,6 +147,7 @@ namespace Up4All.WebCrawler.Framework
         {
             services.AddMessageBusTopicClientMocked<RabbitMQTopicClientMocked>();
             services.AddMessageBusSubscribeClientMocked<RabbitMQSubscribeClientMocked>();
+            services.AddMessageBusQueueClientMocked<RabbitMQQueueClientMocked>();
             services.AddSingleton<ITaskService, TaskServiceMock>();
             return services;
         }
