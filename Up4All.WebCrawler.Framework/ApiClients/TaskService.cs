@@ -19,6 +19,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Up4All.Framework.MessageBus.Abstractions.Interfaces;
+using Up4All.Framework.MessageBus.Abstractions.Messages;
 using Up4All.WebCrawler.Framework.Contracts;
 using Up4All.WebCrawler.Framework.Entities;
 using Up4All.WebCrawler.Framework.Entities.Enums;
@@ -35,14 +37,16 @@ namespace Up4All.WebCrawler.Framework.ApiClients
         private readonly IConfiguration _configuration;
         private readonly ILogger<TaskService> _logger;
         private readonly IChromeService _chromeService;
-        private readonly IImageService _imageService;        
+        private readonly IImageService _imageService;
+        private readonly IMessageBusQueueClient _queueClient;
 
-        public TaskService(IConfiguration configuration, ILogger<TaskService> logger, IChromeService chromeService, IImageService imageService)
+        public TaskService(IConfiguration configuration, ILogger<TaskService> logger, IChromeService chromeService, IImageService imageService, IMessageBusQueueClient queueClient)
         {
             _configuration = configuration;
             _logger = logger;
             _chromeService = chromeService;            
             _imageService = imageService;
+            _queueClient = queueClient;
         }
 
         public Stream CreateEvidenceAsync(Context context)
@@ -265,15 +269,18 @@ namespace Up4All.WebCrawler.Framework.ApiClients
             return $"Consulta em {DateTime.Now:dd/MM/yyyy HH:mm} | BotName: {context.BotName} | Task: {context.Task.TaskName}";
         }
 
-        public Task SaveAsync(Context context)
+        public async Task SaveAsync(Context context)
         {
             try
             {
-                if (context.Result.Status == TaskResultEnum.None)
+                if (context.Result.Status == TaskResultEnum.None)                
                     context.Result.SetAsFailed();
 
-                _logger.LogInformation($"Task {context.Task.TaskId} ended with status {context.Result.Status.Name}");                
-                return Task.CompletedTask;
+                var message = new MessageBusMessage();
+                message.AddBody(context);
+                await _queueClient.Send(message);
+
+                _logger.LogInformation($"Task {context.Task.TaskId}|{context.Task.TaskName} ended with status {context.Result.Status.Name}");
             }
             catch (Exception ex)
             {

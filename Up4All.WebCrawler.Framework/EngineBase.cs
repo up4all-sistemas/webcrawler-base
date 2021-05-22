@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Up4All.Framework.MessageBus.Abstractions;
 using Up4All.Framework.MessageBus.Abstractions.Interfaces;
 using Up4All.WebCrawler.Domain.Models;
 using Up4All.WebCrawler.Framework.Contracts;
@@ -121,21 +120,29 @@ namespace Up4All.WebCrawler.Framework
             catch (TimeoutRejectedException ex)
             {
                 LogService.LogError(ex, "Task timeout excedeed.");
+                LogService.LogTrace(ex.StackTrace);
+                Context.Result.SetDetails($"Error: {ex.Message}");
                 ShutDown();
             }
             catch (WebDriverTimeoutException ex)
             {
                 LogService.LogError(ex, "Task source unavailable");
+                LogService.LogTrace(ex.StackTrace);
+                Context.Result.SetDetails($"Error: {ex.Message}");
                 ShutDown();
             }
             catch (UnavailableSourceException ex)
             {
                 LogService.LogError(ex, "Task source unavailable");
+                LogService.LogTrace(ex.StackTrace);
+                Context.Result.SetDetails($"Error: This source is unavailable");
                 ShutDown();
             }
             catch (Exception ex)
             {
                 LogService.LogError(ex, "Error in task execution");
+                LogService.LogTrace(ex.StackTrace);
+                Context.Result.SetDetails($"Error: {ex.Message}");
                 ShutDown();
             }
             finally

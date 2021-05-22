@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 using Up4All.WebCrawler.Domain.Models;
 using Up4All.WebCrawler.Framework.Contracts;
-using Up4All.WebCrawler.Framework.Entities.Enums;
 
 namespace Up4All.WebCrawler.Framework.Entities
 {

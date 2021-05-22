@@ -14,6 +14,8 @@ namespace Up4All.WebCrawler.Framework.Entities
 
         public TaskResultEnum Status { get; private set; }
 
+        public string Details { get; private set; }
+
         public TaskResult()
         {
             StartedAt = DateTime.UtcNow;
@@ -36,6 +38,11 @@ namespace Up4All.WebCrawler.Framework.Entities
         {
             StoppedAt = DateTime.UtcNow;
             Status = TaskResultEnum.Unavailable;
+        }
+
+        public void SetDetails(string text)
+        {
+            Details = text;
         }
     }
 }
